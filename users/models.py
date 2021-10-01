@@ -4,6 +4,18 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
     
 class CustomAccountManager(BaseUserManager):
+    def create_user(self, email, username, password=None, **other_fields):
+        if not email:
+            raise ValueError(_('Users must have an email address'))
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username, **other_fields)
+
+        user.set_password(password)
+        user.save()
+        
+        return user
+
     def create_superuser(self, email, username, password, **other_fields):
 
         other_fields.setdefault('is_staff', True)
