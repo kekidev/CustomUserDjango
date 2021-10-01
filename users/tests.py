@@ -39,3 +39,4 @@ class UserAccountTests(TestCase):
         with self.assertRaises(ValueError):
             db.objects.create_user(
                 email='', username='a', password='password')
+            
